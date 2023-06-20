@@ -11,17 +11,24 @@ export class UserController{
     }
 
     @Get(':id')
-    async readUniqueUser(@Param('id', ParseIntPipe) id: number) {
+    async readUniqueUser(
+        @Param('id', ParseIntPipe) id: number
+    ) {
         return {user: {name: 'Guilherme'}, id}
     }
 
     @Post('create')
-    async createUser(@Body() body: CreateUserDto){
+    async createUser(
+        @Body() body: CreateUserDto
+    ){
         return {body};
     }
 
     @Put(':id')
-    async updateUser(@Body() body: UpdateUserDtoTypePut, @Param('id', ParseIntPipe) id: number){
+    async updateUser(
+        @Body() body: UpdateUserDtoTypePut, 
+        @Param('id', ParseIntPipe) id: number
+    ){
         return {
             method: 'put',
             body,
@@ -30,7 +37,10 @@ export class UserController{
     }
 
     @Patch(':id')
-    async partialUpdateUser(@Body() body: UpdateUserDtoTypePatch, @Param('id', ParseIntPipe) id: number){
+    async partialUpdateUser(
+        @Body() body: UpdateUserDtoTypePatch, 
+        @Param('id', ParseIntPipe) id: number
+    ){
         return {
             method: 'patch',
             body,
@@ -39,7 +49,9 @@ export class UserController{
     }
 
     @Delete(':id')
-    async deleteUser( @Param('id', ParseIntPipe) id: number){
+    async deleteUser(
+        @Param('id', ParseIntPipe) id: number
+    ){
         return {
            id
         }
