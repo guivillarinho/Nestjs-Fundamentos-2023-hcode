@@ -2,58 +2,52 @@ import { Body, Controller, Post, Get, Param, Put, Patch, Delete, ParseIntPipe } 
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDtoTypePut } from "./dto/updateTypePut-user.dto";
 import { UpdateUserDtoTypePatch } from "./dto/updateTypePatch-user.dto";
+import { UserService } from "./user.service";
 
 @Controller('users')
 export class UserController{
+    constructor(private readonly userService: UserService){}
+
+    @Post('create')
+    async createUser(
+        @Body() data: CreateUserDto
+    ){
+        return this.userService.createUser(data);
+    }
+    
     @Get('all')
     async readAllUsers() {
-        return {users: [{name: 'Guilherme'}, {name: 'Gustavo'}]}
+        return this.userService.readAllUsers()
     }
 
     @Get(':id')
     async readUniqueUser(
-        @Param('id', ParseIntPipe) id: number
+        @Param('id') id: string
     ) {
-        return {user: {name: 'Guilherme'}, id}
+        return this.userService.readUniqueUser(id)
     }
 
-    @Post('create')
-    async createUser(
-        @Body() body: CreateUserDto
-    ){
-        return {body};
-    }
 
     @Put(':id')
     async updateUser(
-        @Body() body: UpdateUserDtoTypePut, 
-        @Param('id', ParseIntPipe) id: number
+        @Body() data: UpdateUserDtoTypePut, 
+        @Param('id') id: string
     ){
-        return {
-            method: 'put',
-            body,
-            id
-        }
+        return this.userService.updateUser(id, data)
     }
 
     @Patch(':id')
     async partialUpdateUser(
-        @Body() body: UpdateUserDtoTypePatch, 
-        @Param('id', ParseIntPipe) id: number
+        @Body() data: UpdateUserDtoTypePatch, 
+        @Param('id') id: string
     ){
-        return {
-            method: 'patch',
-            body,
-            id
-        }
+        return this.userService.partialUpdateUser(id, data)
     }
 
     @Delete(':id')
     async deleteUser(
-        @Param('id', ParseIntPipe) id: number
+        @Param('id') id: string
     ){
-        return {
-           id
-        }
+        return this.userService.deleteUser(id)
     }
 }
