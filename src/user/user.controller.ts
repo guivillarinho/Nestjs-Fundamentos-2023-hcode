@@ -24,6 +24,7 @@ export class UserController{
     async readUniqueUser(
         @Param('id') id: string
     ) {
+        this.userService.verifyExists(id)
         return this.userService.readUniqueUser(id)
     }
 
@@ -33,6 +34,7 @@ export class UserController{
         @Body() data: UpdateUserDtoTypePut, 
         @Param('id') id: string
     ){
+        this.userService.verifyExists(id)
         return this.userService.updateUser(id, data)
     }
 
@@ -41,6 +43,7 @@ export class UserController{
         @Body() data: UpdateUserDtoTypePatch, 
         @Param('id') id: string
     ){
+        this.userService.verifyExists(id)
         return this.userService.partialUpdateUser(id, data)
     }
 
@@ -48,6 +51,7 @@ export class UserController{
     async deleteUser(
         @Param('id') id: string
     ){
+        this.userService.verifyExists(id)
         return this.userService.deleteUser(id)
     }
 }
