@@ -28,7 +28,20 @@ export class UserService {
         }})
     }
 
-    async updateUser(id: string, data:UpdateUserDtoTypePut){
+    async updateUser(id: string, {email, name, password, birthAt}:UpdateUserDtoTypePut){
+
+        return await this.prisma.user.update({
+            data: {email, name, password, birthAt: birthAt ? new Date(birthAt) : null},
+            where: {
+                id  
+            }
+        })
+    }
+
+    async partialUpdateUser(id: string, {name, email, password, birthAt}:UpdateUserDtoTypePatch){
+    
+        const data: any = {name, email, password, birthAt: birthAt ? new Date(birthAt) : birthAt}
+
         return await this.prisma.user.update({
             data,
             where: {
@@ -37,14 +50,6 @@ export class UserService {
         })
     }
 
-    async partialUpdateUser(id: string, data:UpdateUserDtoTypePatch){
-        return await this.prisma.user.update({
-            data,
-            where: {
-                id  
-            }
-        })
-    }
     async deleteUser(id: string){
         return await this.prisma.user.delete({
             where: {
