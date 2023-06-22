@@ -3,6 +3,7 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDtoTypePut } from "./dto/updateTypePut-user.dto";
 import { UpdateUserDtoTypePatch } from "./dto/updateTypePatch-user.dto";
 import { UserService } from "./user.service";
+import { ParamID } from "src/decorators/paramId.decorator";
 
 @Controller('users')
 export class UserController{
@@ -24,7 +25,7 @@ export class UserController{
 
     @Get(':id')
     async readUniqueUser(
-        @Param('id', ParseIntPipe) id: number
+        @ParamID() id: number
     ) {
         this.userService.verifyUserIdExists(id)
         return this.userService.readUniqueUser(id)
@@ -34,7 +35,7 @@ export class UserController{
     @Put(':id')
     async updateUser(
         @Body() data: UpdateUserDtoTypePut, 
-        @Param('id', ParseIntPipe) id: number
+        @ParamID() id: number
     ){
         this.userService.verifyUserIdExists(id)
         return this.userService.updateUser(id, data)
@@ -43,7 +44,7 @@ export class UserController{
     @Patch(':id')
     async partialUpdateUser(
         @Body() data: UpdateUserDtoTypePatch, 
-        @Param('id', ParseIntPipe) id: number
+        @ParamID() id: number
     ){
         this.userService.verifyUserIdExists(id)
         return this.userService.partialUpdateUser(id, data)
@@ -51,7 +52,7 @@ export class UserController{
 
     @Delete(':id')
     async deleteUser(
-        @Param('id', ParseIntPipe) id: number
+        @ParamID() id: number
     ){
         this.userService.verifyUserIdExists(id)
         return this.userService.deleteUser(id)
