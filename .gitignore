@@ -4,6 +4,7 @@
 
 # Files
 .env
+migration.sql
 
 # Logs
 logs
