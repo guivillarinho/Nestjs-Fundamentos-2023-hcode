@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Param, Put, Patch, Delete, ParseIntPipe } from "@nestjs/common";
+import { Body, Controller, Post, Get, Param, Put, Patch, Delete, ParseIntPipe, UseInterceptors } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDtoTypePut } from "./dto/updateTypePut-user.dto";
 import { UpdateUserDtoTypePatch } from "./dto/updateTypePatch-user.dto";
@@ -8,23 +8,25 @@ import { UserService } from "./user.service";
 export class UserController{
     constructor(private readonly userService: UserService){}
 
+    
     @Post('create')
     async createUser(
-        @Body() data: CreateUserDto
+        @Body() {email, name, password, birthAt}: CreateUserDto
     ){
-        return this.userService.createUser(data);
+        this.userService.verifyUserEmailExists(email)
+        return this.userService.createUser({email, name, password, birthAt});
     }
     
-    @Get('all')
+    @Get()
     async readAllUsers() {
         return this.userService.readAllUsers()
     }
 
     @Get(':id')
     async readUniqueUser(
-        @Param('id') id: string
+        @Param('id', ParseIntPipe) id: number
     ) {
-        this.userService.verifyExists(id)
+        this.userService.verifyUserIdExists(id)
         return this.userService.readUniqueUser(id)
     }
 
@@ -32,26 +34,26 @@ export class UserController{
     @Put(':id')
     async updateUser(
         @Body() data: UpdateUserDtoTypePut, 
-        @Param('id') id: string
+        @Param('id', ParseIntPipe) id: number
     ){
-        this.userService.verifyExists(id)
+        this.userService.verifyUserIdExists(id)
         return this.userService.updateUser(id, data)
     }
 
     @Patch(':id')
     async partialUpdateUser(
         @Body() data: UpdateUserDtoTypePatch, 
-        @Param('id') id: string
+        @Param('id', ParseIntPipe) id: number
     ){
-        this.userService.verifyExists(id)
+        this.userService.verifyUserIdExists(id)
         return this.userService.partialUpdateUser(id, data)
     }
 
     @Delete(':id')
     async deleteUser(
-        @Param('id') id: string
+        @Param('id', ParseIntPipe) id: number
     ){
-        this.userService.verifyExists(id)
+        this.userService.verifyUserIdExists(id)
         return this.userService.deleteUser(id)
     }
 }
