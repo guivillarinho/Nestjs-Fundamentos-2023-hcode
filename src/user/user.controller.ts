@@ -14,11 +14,10 @@ export class UserController{
     async createUser(
         @Body() {email, name, password, birthAt}: CreateUserDto
     ){
-        this.userService.verifyUserEmailExists(email)
         return this.userService.createUser({email, name, password, birthAt});
     }
     
-    @Get()
+    @Get('all')
     async readAllUsers() {
         return this.userService.readAllUsers()
     }
