@@ -8,14 +8,14 @@ import { UserIDlMiddlewareVerify } from './middleware/user.middleware';
   imports: [PrismaModule],
   controllers: [UserController],
   providers: [UserService],
-  exports: [],
+  exports: [UserService],
 })
 export class UserModule implements NestModule{
   configure(consumer: MiddlewareConsumer) {
       consumer
       .apply(UserIDlMiddlewareVerify)
       .forRoutes({
-        path: 'users/:id',
+        path: ':id',
         method: RequestMethod.ALL
       })
   }
