@@ -1,34 +1,61 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "src/prisma/prisma.service";
 
 import * as bcrypt from 'bcrypt'
+import { User } from "@prisma/client";
+import { AuthRegisterDto } from "./dto/authRegister.dto";
+import { UserService } from "src/user/user.service";
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly JwtService: JwtService, 
-        private readonly prisma: PrismaService
+        private readonly prisma: PrismaService,
+        private readonly userService: UserService
     ){}
 
-    async createToken() {
-        return this.JwtService.sign({})
+    async createToken(user: User) {
+        return {
+            accessToken: this.JwtService.sign({
+                id: user.id,
+                name: user.name,
+                email: user.email
+            }, {
+                expiresIn: '1d',
+                subject: String(user.id),
+                issuer: 'login',
+                audience: 'users'
+            })
+        }
     }
 
     async checkToken(token: string){
-        // return this.JwtService.verify(token)
+         try {
+            const data = this.JwtService.verify(token, {
+                audience: 'users',
+                issuer: 'login',
+            })
+            return data
+        } catch (error) {
+            throw new BadRequestException(error)
+        }  
     }
 
     async login(email: string, password: string){
-
-        const VerifyIfUserExists = await this.findUserInDataBase(email, password)
-
-        if(!VerifyIfUserExists){
+        const existingUser = await this.findUserInDataBase(email, password)
+        
+        if(!existingUser){
             throw new UnauthorizedException('Usuário ou senha estão incorretos!')
         }
-         return VerifyIfUserExists
+        const token = this.createToken(existingUser)
+        return token
     }
-    
+
+    async registerUser(data: AuthRegisterDto){
+        const user = await this.userService.createUser(data)
+        return this.createToken(user)
+    }
     
     async forgetPassword(email: string){
         const user = await this.prisma.user.findFirst({
@@ -48,7 +75,7 @@ export class AuthService {
         
         const id = 0;
         
-        await this.prisma.user.update({
+        const user = await this.prisma.user.update({
             where: {
                 id,
             },
@@ -57,7 +84,8 @@ export class AuthService {
             }
         })
         
-        return true;
+         
+        return this.createToken(user)
     }
     
     async findUserInDataBase(email: string, password: string){
