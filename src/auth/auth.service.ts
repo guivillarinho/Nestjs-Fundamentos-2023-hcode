@@ -15,7 +15,7 @@ export class AuthService {
         private readonly userService: UserService
     ){}
 
-    async createToken(user: User) {
+         createToken(user: User) {
         return {
             accessToken: this.JwtService.sign({
                 id: user.id,
@@ -30,7 +30,7 @@ export class AuthService {
         }
     }
 
-    async checkToken(token: string){
+    checkToken(token: string){
          try {
             const data = this.JwtService.verify(token, {
                 audience: 'users',
@@ -40,6 +40,15 @@ export class AuthService {
         } catch (error) {
             throw new BadRequestException(error)
         }  
+    }
+
+    isAuthenticated(token: string){
+        try {
+            this.checkToken(token)
+            return true;
+        } catch (error) {
+            return false
+        }
     }
 
     async login(email: string, password: string){
