@@ -1,5 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { AuthService } from "src/auth/auth.service";
+import { UserService } from "src/user/user.service";
 
 @Injectable()
 /**
@@ -7,9 +8,12 @@ import { AuthService } from "src/auth/auth.service";
  */
 export class AuthGuard implements CanActivate {
 
-    constructor(private readonly authService: AuthService){}
+    constructor(
+        private readonly authService: AuthService,
+        private readonly userService: UserService
+    ){}
 
-    canActivate(context: ExecutionContext) {
+    async canActivate(context: ExecutionContext) {
 
         //Pegando o request da requisição e depois é pego somente o campo de authorization que vem do request.headers ("Cabeçalhos da requisição")
         const request = context.switchToHttp().getRequest();
@@ -21,6 +25,8 @@ export class AuthGuard implements CanActivate {
 
             request.tokenPayload = data
 
+            //Criando outro request personalizado que vai retornar o usuário logado.
+            request.user = await this.userService.readUniqueUser(data.id)
             return true
         } catch(error){
             return false 
