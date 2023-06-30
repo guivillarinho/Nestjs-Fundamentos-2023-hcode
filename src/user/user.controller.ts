@@ -30,7 +30,6 @@ export class UserController{
         return this.userService.readUniqueUser(id)
     }
 
-
     @Put(':id')
     async updateUser(
         @Body() data: UpdateUserDtoTypePut, 
