@@ -8,13 +8,12 @@ import { RolesDecorator } from "src/decorators/role.decorator";
 import { Role } from "src/enums/role.enum";
 import { RoleGuard } from "src/guards/role.guard";
 import { AuthGuard } from "src/guards/auth.guard";
-
+@RolesDecorator(Role.Admin)
 @UseGuards(AuthGuard ,RoleGuard)
 @Controller('users')
 export class UserController{
     constructor(private readonly userService: UserService){}
 
-    @RolesDecorator(Role.Admin)
     @Post('create')
     async createUser(
         @Body() {email, name, password, birthAt, role}: CreateUserDto
@@ -22,13 +21,13 @@ export class UserController{
         return this.userService.createUser({email, name, password, birthAt, role});
     }
     
-    @RolesDecorator(Role.Admin)
+    @RolesDecorator(Role.Admin, Role.User)
     @Get('all')
     async readAllUsers() {
         return this.userService.readAllUsers()
     }
 
-    @RolesDecorator(Role.Admin)
+
     @Get(':id')
     async readUniqueUser(
         @ParamID() id: number
@@ -37,7 +36,6 @@ export class UserController{
         return this.userService.readUniqueUser(id)
     }
     
-    @RolesDecorator(Role.Admin)
     @Put(':id')
     async updateUser(
         @Body() data: UpdateUserDtoTypePut, 
@@ -47,7 +45,6 @@ export class UserController{
         return this.userService.updateUser(id, data)
     }
 
-    @RolesDecorator(Role.Admin)
     @Patch(':id')
     async partialUpdateUser(
         @Body() data: UpdateUserDtoTypePatch, 
@@ -57,7 +54,6 @@ export class UserController{
         return this.userService.partialUpdateUser(id, data)
     }
 
-    @RolesDecorator(Role.Admin)
     @Delete(':id')
     async deleteUser(
         @ParamID() id: number
