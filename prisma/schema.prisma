@@ -16,6 +16,7 @@ model User {
   email    String    @unique
   password String
   birthAt  DateTime? @db.Date
+  role     String    @default("user")
 
   createdAt DateTime @default(now()) @db.Timestamp(0)
   updatedAt DateTime @default(now()) @db.Timestamp(0)
