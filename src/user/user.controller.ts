@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Put, Patch, Delete } from "@nestjs/common";
+import { Body, Controller, Post, Get, Put, Patch, Delete, UseGuards } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDtoTypePut } from "./dto/updateTypePut-user.dto";
 import { UpdateUserDtoTypePatch } from "./dto/updateTypePatch-user.dto";
@@ -6,7 +6,10 @@ import { UserService } from "./user.service";
 import { ParamID } from "src/decorators/paramId.decorator";
 import { RolesDecorator } from "src/decorators/role.decorator";
 import { Role } from "src/enums/role.enum";
+import { RoleGuard } from "src/guards/role.guard";
+import { AuthGuard } from "src/guards/auth.guard";
 
+@UseGuards(AuthGuard ,RoleGuard)
 @Controller('users')
 export class UserController{
     constructor(private readonly userService: UserService){}
@@ -14,9 +17,9 @@ export class UserController{
     @RolesDecorator(Role.Admin)
     @Post('create')
     async createUser(
-        @Body() {email, name, password, birthAt}: CreateUserDto
+        @Body() {email, name, password, birthAt, role}: CreateUserDto
     ){
-        return this.userService.createUser({email, name, password, birthAt});
+        return this.userService.createUser({email, name, password, birthAt, role});
     }
     
     @RolesDecorator(Role.Admin)
@@ -33,7 +36,7 @@ export class UserController{
         this.userService.verifyUserIdExists(id)
         return this.userService.readUniqueUser(id)
     }
-
+    
     @RolesDecorator(Role.Admin)
     @Put(':id')
     async updateUser(
