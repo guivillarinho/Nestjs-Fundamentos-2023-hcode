@@ -6,6 +6,7 @@ import { AuthForgetPasswordDto } from "./dto/authForgetPassword.dto";
 import { AuthResetPasswordDto } from "./dto/authResetPassword.dto";
 import { AuthGuard } from "src/guards/auth.guard";
 import { UserDecorator } from "src/decorators/user.decorator";
+import { User } from "@prisma/client";
 
 @Controller('auth')
 export class AuthController {
@@ -20,7 +21,7 @@ export class AuthController {
 
     @UseGuards(AuthGuard)
     @Post('me')
-    async me(@UserDecorator() user){
+    async me(@UserDecorator() user: User){
          return {user}
     }
 
