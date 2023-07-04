@@ -45,13 +45,14 @@ export class UserService {
         })
     }
 
-    async partialUpdateUser( id: number, {name, email, password, birthAt}:UpdateUserDtoTypePatch){
+    async partialUpdateUser( id: number, {name, email, password, birthAt, role}:UpdateUserDtoTypePatch){
 
         const data: UpdateUserDtoTypePatch = {
             name, 
             email, 
             password, 
-            birthAt: birthAt && new Date(birthAt) 
+            birthAt: birthAt && new Date(birthAt),
+            role,
         }
         await this.verifyUserIdExists(id)
         return await this.prisma.user.update({
