@@ -1,10 +1,12 @@
 import { SetMetadata } from '@nestjs/common'
 import { Role } from '../enums/role.enum'
 
+export const ROLE_KEYS = "roles"
+
 /**
  * Função para pegar vários enums, distribuir esses enums dentro do parâmetro, utilizar o setMetadata para passar os dois argumentos e transformar em um objeto.
  */
-export const RolesDecorator = (...roles: Role[]) => SetMetadata('roles', roles)
+export const RolesDecorator = (...roles: Role[]) => SetMetadata(ROLE_KEYS, roles)
 
 //Quando passamos o Role[] queremos dizer que estamos pegando vários, pois foram mais de um valor dentro do enum que foi criado. 
 
