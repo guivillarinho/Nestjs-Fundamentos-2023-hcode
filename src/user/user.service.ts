@@ -37,8 +37,11 @@ export class UserService {
 
     async updateUser( id: number, {email, name, password, birthAt}:UpdateUserDtoTypePut){
         await this.verifyUserIdExists(id)
+
+        const hashedPassword = await bcrypt.hash(password, 8)
+
         return await this.prisma.user.update({
-            data: {email, name, password, birthAt: birthAt ? new Date(birthAt) : null},
+            data: {email, name, password: hashedPassword, birthAt: birthAt ? new Date(birthAt) : null},
             where: {
                 id  
             }
@@ -47,10 +50,12 @@ export class UserService {
 
     async partialUpdateUser( id: number, {name, email, password, birthAt, role}:UpdateUserDtoTypePatch){
 
+        const hashedPassword = await bcrypt.hash(password, 8)
+
         const data: UpdateUserDtoTypePatch = {
             name, 
             email, 
-            password, 
+            password: hashedPassword, 
             birthAt: birthAt && new Date(birthAt),
             role,
         }
