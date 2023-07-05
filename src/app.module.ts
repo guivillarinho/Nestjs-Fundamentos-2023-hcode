@@ -6,6 +6,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 
 import {ThrottlerGuard, ThrottlerModule} from '@nestjs/throttler'
+import { ConfigModule } from '@nestjs/config'
 import { APP_GUARD } from '@nestjs/core';
 
 @Module({
@@ -13,6 +14,7 @@ import { APP_GUARD } from '@nestjs/core';
     forwardRef(() => UserModule),
     PrismaModule,
     forwardRef(() => AuthModule),
+    ConfigModule.forRoot(),
     ThrottlerModule.forRoot({
       ttl: 60,
       limit: 20
