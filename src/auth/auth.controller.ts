@@ -50,7 +50,7 @@ export class AuthController {
     async uploadFile(@UserDecorator() user: User, @UploadedFile(new ParseFilePipe({
         validators: [
             new FileTypeValidator({fileType: 'image/png'}),
-            new MaxFileSizeValidator({maxSize: 1024 * 20})
+            new MaxFileSizeValidator({maxSize: 1024 * 50})
         ]
     })) attachedFile: Express.Multer.File){
          
