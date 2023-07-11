@@ -19,7 +19,7 @@ export class UserEntity {
     password: string 
 
     @Column({nullable: true})
-    birthAt: string
+    birthAt: Date
 
     @CreateDateColumn()
     createdAt: string  
