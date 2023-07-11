@@ -86,11 +86,13 @@ export class UserService {
 
   async verifyUserIdExists(id: number) {
     if (
-      !(await this.userRepository.exist({
-        where: { id },
-      }))
+      !await this.userRepository.exist({
+        where: {
+          id,
+        },
+      })
     ) {
-      throw new NotFoundException('Usuário não encontrado');
+      throw new BadRequestException(`O usuário ${id} não existe.`);
     }
   }
 
