@@ -33,61 +33,53 @@ export class UserService {
 
     async readUniqueUser( id: number ){
         await this.verifyUserIdExists(id)
-        return await this.userRepository.findOne({
-            where: {
-                id,
-            }
+        return await this.userRepository.findOneBy({
+            id,
         })
     }
 
-    async updateUser( id: number, {email, name, password, birthAt}:UpdateUserDtoTypePut){
-        // await this.verifyUserIdExists(id)
+    async updateUser( id: number, {email, name, password, birthAt, role}:UpdateUserDtoTypePut){
+        await this.verifyUserIdExists(id)
 
-        // const hashedPassword = await bcrypt.hash(password, 8)
+        const hashedPassword = await bcrypt.hash(password, 8)
 
-        // return await this.prisma.user.update({
-        //     data: {email, name, password: hashedPassword, birthAt: birthAt ? new Date(birthAt) : null},
-        //     where: {
-        //         id  
-        //     }
-        // })
+        return this.userRepository.update(id, {
+            email,
+            name,
+            password: hashedPassword,
+            birthAt: birthAt ? new Date(birthAt) : null,
+            role
+        })
     }
 
     async partialUpdateUser( id: number, {name, email, password, birthAt, role}:UpdateUserDtoTypePatch){
 
-        const hashedPassword = await bcrypt.hash(password, 8)
+        await this.verifyUserIdExists(id)
 
-        const data: UpdateUserDtoTypePatch = {
+        if(password){
+            const hashedPassword = await bcrypt.hash(password, 8)
+            password = hashedPassword
+        }
+        return await this.userRepository.update(id, {
             name, 
             email, 
-            password: hashedPassword, 
+            password, 
             birthAt: birthAt && new Date(birthAt),
             role,
-        }
-        await this.verifyUserIdExists(id)
-        // return await this.prisma.user.update({
-        //     data,
-        //     where: {
-        //         id  
-        //     }
-        // })
+        })
     }
 
     async deleteUser( id: number ){
-        // await this.verifyUserIdExists(id)
-        // return await this.prisma.user.delete({
-        //     where: {
-        //         id
-        //     }
-        // })
+        await this.verifyUserIdExists(id)
+        return await this.userRepository.delete(id)
     }
 
     async verifyUserIdExists( id: number ){
-        // if(!(await this.prisma.user.count({
-        //     where:{ id }
-        // }))){
-        //     throw new NotFoundException('Usuário não encontrado')
-        // }
+        if(!(await this.userRepository.exist({
+            where:{ id }
+        }))){
+            throw new NotFoundException('Usuário não encontrado')
+        }
     }
 
     async verifyUserEmailExists(email: string){
