@@ -6,10 +6,10 @@ import { AuthForgetPasswordDto } from "./dto/authForgetPassword.dto";
 import { AuthResetPasswordDto } from "./dto/authResetPassword.dto";
 import { AuthGuard } from "src/guards/auth.guard";
 import { UserDecorator } from "src/decorators/user.decorator";
-import { User } from "@prisma/client";
 import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express'
 import { join } from "path";
 import { FileService } from "src/files/file.service";
+import { UserEntity } from "src/user/entity/user.entity";
 
 @Controller('auth')
 export class AuthController {
@@ -25,7 +25,7 @@ export class AuthController {
 
     @UseGuards(AuthGuard)
     @Post('me')
-    async me(@UserDecorator() user: User){
+    async me(@UserDecorator() user: UserEntity){
          return {user}
     }
 
@@ -47,7 +47,7 @@ export class AuthController {
     @UseInterceptors(FileInterceptor('file'))
     @UseGuards(AuthGuard)
     @Post('file')
-    async uploadFile(@UserDecorator() user: User, @UploadedFile(new ParseFilePipe({
+    async uploadFile(@UserDecorator() user: UserEntity, @UploadedFile(new ParseFilePipe({
         validators: [
             new FileTypeValidator({fileType: 'image/png'}),
             new MaxFileSizeValidator({maxSize: 1024 * 50})

@@ -8,8 +8,8 @@ import { RolesDecorator } from "src/decorators/role.decorator";
 import { Role } from "src/enums/role.enum";
 import { RoleGuard } from "src/guards/role.guard";
 import { AuthGuard } from "src/guards/auth.guard";
-@RolesDecorator(Role.Admin)
-@UseGuards(AuthGuard ,RoleGuard)
+// @RolesDecorator(Role.Admin)
+// @UseGuards(AuthGuard ,RoleGuard)
 @Controller('users')
 export class UserController{
     constructor(private readonly userService: UserService){}
