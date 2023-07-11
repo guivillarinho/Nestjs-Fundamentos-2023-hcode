@@ -51,7 +51,7 @@ import { UserEntity } from './user/entity/user.entity';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: [UserEntity],
-      synchronize: false,
+      synchronize: process.env.ENV === "development",
     })
   ],
   controllers: [AppController],
