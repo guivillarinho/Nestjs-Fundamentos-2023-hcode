@@ -136,13 +136,9 @@ export class AuthService {
     
     async findUserInDataBase(email: string, password: string){
 
-        console.log(await this.userRepository.findOne({where: {email}}))
-
         const user = await this.userRepository
-        .findOne({
-            where: {
-                email
-            }
+        .findOneBy({
+            email
         })
     
         if(!user){
