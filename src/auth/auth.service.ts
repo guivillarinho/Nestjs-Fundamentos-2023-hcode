@@ -72,65 +72,60 @@ export class AuthService {
     }
     
     async forgetPassword(email: string){
-        // const user = await this.prisma.user.findFirst({
-        //     where: {
-        //         email,
-        //     }
-        // })
+        const user = await this.userRepository.findOneBy({
+            email
+        })
 
-        // const token = this.JwtService.sign({
-        //     id: user.id
-        // }, {
-        //     expiresIn: '30 minutes',
-        //     subject: String(user.id),
-        //     issuer: 'forget',
-        //     audience: 'users'
-        // })
+        const token = this.JwtService.sign({
+            id: user.id
+        }, {
+            expiresIn: '30 minutes',
+            subject: String(user.id),
+            issuer: 'forget',
+            audience: 'users'
+        })
 
-        // await this.mailerService.sendMail({
-        //     subject: 'Recuperação de senha',
-        //     to: 'guivillarinho15@gmail.com',
-        //     template: 'forget-password',
-        //     context: {
-        //         name: user.name,
-        //         token
-        //     }
-        // })
+        await this.mailerService.sendMail({
+            subject: 'Recuperação de senha',
+            to: 'guivillarinho15@gmail.com',
+            template: 'forget-password',
+            context: {
+                name: user.name,
+                token
+            }
+        })
 
-        // if(!user){
-        //     throw new UnauthorizedException('O e-mail está incorreto!')
-        // }
-        // return user
+        if(!user){
+            throw new UnauthorizedException('O e-mail está incorreto!')
+        }
+        return user
     }
     
     async resetPassword(password: string, token: string){
-        // //Se o token, for válido.
-        // try {
-        //     const data: any = this.JwtService.verify(token, {
-        //         issuer: 'forget',
-        //         audience: 'users',
-        //     })
+        //Se o token, for válido.
+        try {
+            const data: any = this.JwtService.verify(token, {
+                issuer: 'forget',
+                audience: 'users',
+            })
 
-        //     if(isNaN(Number(data.id))){
-        //         throw new BadRequestException("Token é inválido!")
-        //     }
+            if(isNaN(Number(data.id))){
+                throw new BadRequestException("Token é inválido!")
+            }
 
-        //     const hashedPassword = await bcrypt.hash(password, 8)
+            const hashedPassword = await bcrypt.hash(password, 8)
         
-        //     const user = await this.prisma.user.update({
-        //         where: {
-        //             id: data.id,
-        //         },
-        //         data: {
-        //             password: hashedPassword
-        //         }
-        //     })
+            await this.userRepository.update(Number(data.id),{
+               password: hashedPassword
+            })
 
-        //     return this.createToken(user)
+            const user = await this.userService.readUniqueUser(Number(data.id))
 
-        // } catch (error) {
-        //     throw new BadRequestException(error)
-        // }  
+            return this.createToken(user)
+
+        } catch (error) {
+            throw new BadRequestException(error)
+        }  
      
     }
     
