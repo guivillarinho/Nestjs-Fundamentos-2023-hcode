@@ -1,4 +1,10 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod, forwardRef } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+  forwardRef,
+} from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { UserIDlMiddlewareVerify } from './middleware/user.middleware';
@@ -8,19 +14,17 @@ import { UserEntity } from './entity/user.entity';
 @Module({
   imports: [
     forwardRef(() => AuthModule),
-    TypeOrmModule.forFeature([UserEntity])
+    TypeOrmModule.forFeature([UserEntity]),
   ],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],
 })
-export class UserModule implements NestModule{
+export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-      consumer
-      .apply(UserIDlMiddlewareVerify)
-      .forRoutes({
-        path: ':id',
-        method: RequestMethod.ALL
-      })
+    consumer.apply(UserIDlMiddlewareVerify).forRoutes({
+      path: ':id',
+      method: RequestMethod.ALL,
+    });
   }
 }
