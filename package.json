@@ -21,7 +21,8 @@
     "commit": "cz",
     "typeorm:ts": "typeorm-ts-node-esm",
     "migration:create": "npm run typeorm:ts migration:create -- ./typeorm/migrations/Migrate",
-    "migration:up": "npm run typeorm:ts migration:run -- -d ./typeorm/data-source.ts"
+    "migration:up": "npm run typeorm:ts migration:run -- -d ./typeorm/data-source.ts",
+    "migration:down": "npm run typeorm:ts migration:revert -- -d ./typeorm/data-source.ts"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.8.1",
