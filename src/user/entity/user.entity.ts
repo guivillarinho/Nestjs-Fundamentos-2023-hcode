@@ -18,7 +18,7 @@ export class UserEntity {
     @Column({length: 200})
     password: string 
 
-    @Column()
+    @Column({nullable: true})
     birthAt: string
 
     @CreateDateColumn()
@@ -27,6 +27,6 @@ export class UserEntity {
     @UpdateDateColumn()
     updatedAt: string
 
-    @Column()
+    @Column({default: "user"})
     role: string
 }
