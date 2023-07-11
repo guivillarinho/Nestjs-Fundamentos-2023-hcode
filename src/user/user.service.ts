@@ -23,7 +23,8 @@ export class UserService {
             name, 
             password: hashedPassword
         })
-        return createdUser
+
+        return this.userRepository.save(createdUser)
     }
 
     async readAllUsers(){
