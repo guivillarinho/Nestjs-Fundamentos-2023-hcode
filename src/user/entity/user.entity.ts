@@ -38,5 +38,5 @@ export class UserEntity {
     enum: Role,
     default: Role.User
   })
-  role: Role;
+  role: string;
 }
