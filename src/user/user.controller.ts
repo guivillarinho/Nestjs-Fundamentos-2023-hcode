@@ -12,11 +12,12 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDtoTypePut } from './dto/updateTypePut-user.dto';
 import { UpdateUserDtoTypePatch } from './dto/updateTypePatch-user.dto';
 import { UserService } from './user.service';
-import { ParamID } from 'src/decorators/paramId.decorator';
-import { RolesDecorator } from 'src/decorators/role.decorator';
-import { Role } from 'src/enums/role.enum';
-import { RoleGuard } from 'src/guards/role.guard';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { RolesDecorator } from '../decorators/role.decorator';
+import { Role } from '../enums/role.enum';
+import { AuthGuard } from '../guards/auth.guard';
+import { RoleGuard } from '../guards/role.guard';
+import { ParamID } from '../decorators/paramId.decorator';
+
 @RolesDecorator(Role.Admin)
 @UseGuards(AuthGuard, RoleGuard)
 @Controller('users')

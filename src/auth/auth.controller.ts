@@ -16,16 +16,18 @@ import { AuthLoginDto } from './dto/authLogin.dto';
 import { AuthRegisterDto } from './dto/authRegister.dto';
 import { AuthForgetPasswordDto } from './dto/authForgetPassword.dto';
 import { AuthResetPasswordDto } from './dto/authResetPassword.dto';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { UserDecorator } from 'src/decorators/user.decorator';
+
 import {
   FileFieldsInterceptor,
   FileInterceptor,
   FilesInterceptor,
 } from '@nestjs/platform-express';
 import { join } from 'path';
-import { FileService } from 'src/files/file.service';
-import { UserEntity } from 'src/user/entity/user.entity';
+
+import { AuthGuard } from '../guards/auth.guard';
+import { UserDecorator } from '../decorators/user.decorator';
+import { UserEntity } from '../user/entity/user.entity';
+import { FileService } from '../files/file.service';
 
 @Controller('auth')
 export class AuthController {
