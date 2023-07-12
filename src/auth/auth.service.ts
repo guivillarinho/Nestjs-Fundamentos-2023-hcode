@@ -25,21 +25,21 @@ export class AuthService {
   ) {}
 
   createToken(user: UserEntity) {
-    return {
-      accessToken: this.JwtService.sign(
-        {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-        },
-        {
-          expiresIn: '1d',
-          subject: String(user.id),
-          issuer: 'login',
-          audience: 'users',
-        },
-      ),
-    };
+    const accessToken = this.JwtService.sign(
+      {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+      {
+        expiresIn: '1d',
+        subject: String(user.id),
+        issuer: 'login',
+        audience: 'users',
+      },
+    );
+
+    return accessToken;
   }
 
   checkToken(token: string) {
