@@ -1,11 +1,12 @@
 import { UserService } from '../user/user.service';
+import { userEntityList } from './userEntity.mock';
 
 export const userServiceMock = {
   provide: UserService,
   useValue: {
-    createUser: jest.fn(),
-    readUniqueUser: jest.fn(),
-    readAllUsers: jest.fn(),
+    createUser: jest.fn().mockReturnValue(userEntityList[0]),
+    readUniqueUser: jest.fn().mockReturnValue(userEntityList[0]),
+    readAllUsers: jest.fn().mockReturnValue(userEntityList),
     updateUser: jest.fn(),
     partialUpdateUser: jest.fn(),
     deleteUser: jest.fn(),
