@@ -38,9 +38,10 @@ export class UserService {
 
   async readUniqueUser(id: number) {
     await this.verifyUserIdExists(id);
-    return await this.userRepository.findOneBy({
+    const user = await this.userRepository.findOneBy({
       id,
     });
+    return user;
   }
 
   async updateUser(
