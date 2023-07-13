@@ -108,7 +108,7 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('O e-mail está incorreto!');
     }
-    return user;
+    return { success: true };
   }
 
   async resetPassword(password: string, token: string) {
@@ -125,13 +125,15 @@ export class AuthService {
 
       const hashedPassword = await bcrypt.hash(password, 8);
 
+      const user = await this.userService.readUniqueUser(data.id);
+
       await this.userRepository.update(Number(data.id), {
         password: hashedPassword,
       });
 
-      const user = await this.userService.readUniqueUser(Number(data.id));
+      const tokenToLogin = this.createToken(user);
 
-      return this.createToken(user);
+      return tokenToLogin;
     } catch (error) {
       throw new BadRequestException(error);
     }
