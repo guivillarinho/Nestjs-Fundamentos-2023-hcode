@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { userRepositoryMock } from '../testing/userRepository.mock';
-import { jwtServiceMock } from '../testing/jwtService.mock';
-import { mailerServiceMock } from '../testing/mailerService.mock';
-import { userServiceMock } from '../testing/userService.mock';
-import { userEntityList } from '../testing/userEntity.mock';
-import { jwtAccessTokenMock } from '../testing/jwtAccessToken.mock';
-import { jwtPayloadMock } from '../testing/jwtPayload.mock';
-import { jwtResetTokenMock } from '../testing/jwtResetToken.mock';
-import { createUserDtoMock } from '../testing/userCreateDto.mock';
-import { authUserRegisterDtoMock } from '../testing/authUserRegisterDto.mock';
+import { jwtServiceMock } from '../testing/jwt/jwtService.mock';
+import { mailerServiceMock } from '../testing/mail/mailerService.mock';
+
+import { authUserRegisterDtoMock } from '../testing/auth/authUserRegisterDto.mock';
+import { userServiceMock } from '../testing/user/userService.mock';
+import { userRepositoryMock } from '../testing/user/userRepository.mock';
+import { jwtAccessTokenMock } from '../testing/jwt/jwtAccessToken.mock';
+import { jwtPayloadMock } from '../testing/jwt/jwtPayload.mock';
+import { userEntityList } from '../testing/user/userEntity.mock';
+import { jwtResetTokenMock } from '../testing/jwt/jwtResetToken.mock';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -83,6 +83,5 @@ describe('AuthService', () => {
 
       expect(result).toEqual(jwtAccessTokenMock);
     });
-
   });
 });

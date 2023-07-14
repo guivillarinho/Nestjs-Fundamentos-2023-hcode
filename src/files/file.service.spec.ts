@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FileService } from './file.service';
-import { getFile } from '../testing/file.mock';
+import { getFile } from '../testing/file/file.mock';
 
 describe('FileService', () => {
   let fileService: FileService;

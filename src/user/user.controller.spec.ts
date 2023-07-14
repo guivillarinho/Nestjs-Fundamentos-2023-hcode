@@ -1,14 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
-import { userServiceMock } from '../testing/userService.mock';
+
 import { AuthGuard } from '../guards/auth.guard';
-import { guardMock } from '../testing/guard.mock';
+import { guardMock } from '../testing/guard/guard.mock';
 import { RoleGuard } from '../guards/role.guard';
 import { UserService } from './user.service';
-import { createUserDtoMock } from '../testing/userCreateDto.mock';
-import { userEntityList } from '../testing/userEntity.mock';
-import { updateUserDtoMock } from '../testing/userUpdateDto.mock';
-import { partialUpdateUserDtoMock } from '../testing/userPartialUpdateDto.mock';
+
+import { updateUserDtoMock } from '../testing/user/userUpdateDto.mock';
+import { userEntityList } from '../testing/user/userEntity.mock';
+import { partialUpdateUserDtoMock } from '../testing/user/userPartialUpdateDto.mock';
+import { createUserDtoMock } from '../testing/user/userCreateDto.mock';
+import { userServiceMock } from '../testing/user/userService.mock';
 
 describe('UserController', () => {
   let useController: UserController;

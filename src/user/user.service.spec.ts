@@ -1,14 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
-
-import { userRepositoryMock } from '../testing/userRepository.mock';
-import { userEntityList } from '../testing/userEntity.mock';
-import { createUserDtoMock } from '../testing/userCreateDto.mock';
 import { Repository } from 'typeorm';
 import { UserEntity } from './entity/user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { updateUserDtoMock } from '../testing/userUpdateDto.mock';
-import { partialUpdateUserDtoMock } from '../testing/userPartialUpdateDto.mock';
+import { updateUserDtoMock } from '../testing/user/userUpdateDto.mock';
+import { userRepositoryMock } from '../testing/user/userRepository.mock';
+import { createUserDtoMock } from '../testing/user/userCreateDto.mock';
+import { userEntityList } from '../testing/user/userEntity.mock';
+import { partialUpdateUserDtoMock } from '../testing/user/userPartialUpdateDto.mock';
 
 describe('UserService', () => {
   //Criando uma variável para utilização do UserService
