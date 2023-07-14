@@ -8,11 +8,11 @@ export class FileService {
     return join(__dirname, '..', '..', 'storage', 'files');
   }
 
-  async upload(file: Express.Multer.File, filename: string): Promise<void> {
+  async upload(file: Express.Multer.File, filename: string): Promise<string> {
     const path: PathLike = join(this.getDestinationPath(), filename);
 
-    const result = writeFile(path, file.buffer);
+    await writeFile(path, file.buffer);
 
-    return result;
+    return path;
   }
 }
