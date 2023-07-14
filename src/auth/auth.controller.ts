@@ -22,13 +22,11 @@ import {
   FileInterceptor,
   FilesInterceptor,
 } from '@nestjs/platform-express';
-import { join } from 'path';
 
 import { AuthGuard } from '../guards/auth.guard';
 import { UserDecorator } from '../decorators/user.decorator';
 import { UserEntity } from '../user/entity/user.entity';
 import { FileService } from '../files/file.service';
-
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -44,7 +42,7 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('me')
   async me(@UserDecorator() user: UserEntity) {
-    return { user };
+    return user;
   }
 
   @Post('register')
@@ -79,8 +77,6 @@ export class AuthController {
   ) {
     const filename = `file-${user.id}.png`;
 
-    console.log(attachedFile);
-
     try {
       await this.fileService.upload(attachedFile, filename);
     } catch (error) {
@@ -94,7 +90,7 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Post('files')
   async uploadFiles(@UploadedFiles() attachedFiles: Express.Multer.File[]) {
-    return { attachedFiles };
+    return { success: true };
   }
 
   @UseInterceptors(
