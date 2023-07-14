@@ -1,2 +1,0 @@
-export const jwtResetTokenMock =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg5MjU1NTM4LCJleHAiOjE2ODkyNTczMzgsImF1ZCI6InVzZXJzIiwiaXNzIjoiZm9yZ2V0Iiwic3ViIjoiMSJ9.izDbKYB99OwGlQGr-ReYd-lJNFgwkpjZzdR-Q_bSSSM';
