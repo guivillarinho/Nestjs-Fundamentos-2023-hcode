@@ -8,6 +8,8 @@ import { userEntityList } from '../testing/userEntity.mock';
 import { jwtAccessTokenMock } from '../testing/jwtAccessToken.mock';
 import { jwtPayloadMock } from '../testing/jwtPayload.mock';
 import { jwtResetTokenMock } from '../testing/jwtResetToken.mock';
+import { createUserDtoMock } from '../testing/userCreateDto.mock';
+import { authUserRegisterDtoMock } from '../testing/authUserRegisterDto.mock';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -75,5 +77,12 @@ describe('AuthService', () => {
 
       expect(result).toEqual(jwtAccessTokenMock);
     });
+
+    test('registerUser', async () => {
+      const result = await authService.registerUser(authUserRegisterDtoMock);
+
+      expect(result).toEqual(jwtAccessTokenMock);
+    });
+
   });
 });
