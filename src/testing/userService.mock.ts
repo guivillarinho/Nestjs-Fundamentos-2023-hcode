@@ -9,7 +9,7 @@ export const userServiceMock = {
     readAllUsers: jest.fn().mockResolvedValue(userEntityList),
     updateUser: jest.fn().mockResolvedValue(userEntityList[0]),
     partialUpdateUser: jest.fn().mockResolvedValue(userEntityList[0]),
-    deleteUser: jest.fn().mockResolvedValue(userEntityList[0]),
+    deleteUser: jest.fn().mockResolvedValue(true),
     verifyUserIdExists: jest.fn().mockResolvedValue(true),
     verifyUserEmailExists: jest.fn(),
   },
