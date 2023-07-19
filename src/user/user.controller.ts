@@ -37,7 +37,7 @@ export class UserController {
     });
   }
 
-  @RolesDecorator(Role.Admin, Role.User)
+  @RolesDecorator(Role.Admin)
   @Get('all')
   async readAllUsers() {
     return this.userService.readAllUsers();
