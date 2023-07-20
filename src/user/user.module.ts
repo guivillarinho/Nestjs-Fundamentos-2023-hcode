@@ -1,22 +1,31 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod, forwardRef } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+  forwardRef,
+} from '@nestjs/common';
 import { UserController } from './user.controller';
-import { PrismaModule } from 'src/prisma/prisma.module';
 import { UserService } from './user.service';
 import { UserIDlMiddlewareVerify } from './middleware/user.middleware';
-import { AuthModule } from 'src/auth/auth.module';
+
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserEntity } from './entity/user.entity';
+import { AuthModule } from '../auth/auth.module';
 @Module({
-  imports: [PrismaModule, forwardRef(() => AuthModule)],
+  imports: [
+    forwardRef(() => AuthModule),
+    TypeOrmModule.forFeature([UserEntity]),
+  ],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],
 })
-export class UserModule implements NestModule{
+export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-      consumer
-      .apply(UserIDlMiddlewareVerify)
-      .forRoutes({
-        path: ':id',
-        method: RequestMethod.ALL
-      })
+    consumer.apply(UserIDlMiddlewareVerify).forRoutes({
+      path: ':id',
+      method: RequestMethod.ALL,
+    });
   }
 }

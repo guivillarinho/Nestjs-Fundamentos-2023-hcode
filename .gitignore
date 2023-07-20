@@ -4,6 +4,7 @@
 
 # Files
 .env
+.env.test
 migration.sql
 
 # Logs
