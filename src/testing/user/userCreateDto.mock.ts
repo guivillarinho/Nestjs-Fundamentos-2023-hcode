@@ -1,5 +1,5 @@
-import { Role } from "../../enums/role.enum";
-import { CreateUserDto } from "../../user/dto/create-user.dto";
+import { Role } from '../../enums/role.enum';
+import { CreateUserDto } from '../../user/dto/create-user.dto';
 
 export const createUserDtoMock: CreateUserDto = {
   name: 'Guilherme Oliveira Villarinho',

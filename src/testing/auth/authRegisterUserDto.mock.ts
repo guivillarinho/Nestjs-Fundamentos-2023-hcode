@@ -1,4 +1,4 @@
-import { AuthRegisterDto } from "../../auth/dto/authRegister.dto";
+import { AuthRegisterDto } from '../../auth/dto/authRegister.dto';
 
 export const authRegisterUserDtoMock: AuthRegisterDto = {
   name: 'Guilherme Oliveira Villarinho',

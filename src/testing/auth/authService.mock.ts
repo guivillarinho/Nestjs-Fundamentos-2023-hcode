@@ -1,8 +1,7 @@
-import { AuthService } from "../../auth/auth.service";
-import { jwtAccessTokenMock } from "../jwt/jwtAccessToken.mock";
-import { jwtPayloadMock } from "../jwt/jwtPayload.mock";
-import { userEntityList } from "../user/userEntity.mock";
-
+import { AuthService } from '../../auth/auth.service';
+import { jwtAccessTokenMock } from '../jwt/jwtAccessToken.mock';
+import { jwtPayloadMock } from '../jwt/jwtPayload.mock';
+import { userEntityList } from '../user/userEntity.mock';
 
 export const authServiceMock = {
   provide: AuthService,

@@ -89,7 +89,7 @@ export class AuthController {
   @UseInterceptors(FilesInterceptor('files'))
   @UseGuards(AuthGuard)
   @Post('files')
-  async uploadFiles(@UploadedFiles() attachedFiles: Express.Multer.File[]) {
+  async uploadFiles(@UploadedFiles() _attachedFiles: Express.Multer.File[]) {
     return { success: true };
   }
 

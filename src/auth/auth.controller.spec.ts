@@ -63,19 +63,19 @@ describe('AuthController', () => {
 
   describe('File Upload', () => {
     test('uploadFile', async () => {
-      const file = await getFile()
+      const file = await getFile();
 
       const result = await authController.uploadFile(userEntityList[0], file);
 
-      expect(result).toEqual({success: true});
+      expect(result).toEqual({ success: true });
     });
 
     test('uploadFiles', async () => {
-      const file = await getFile()
+      const file = await getFile();
 
       const result = await authController.uploadFiles(Array(file));
 
-      expect(result).toEqual({success: true});
+      expect(result).toEqual({ success: true });
     });
   });
 
